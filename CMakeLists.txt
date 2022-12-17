@@ -10,9 +10,19 @@ project(dtkcommon
   DESCRIPTION "DTK COMMON"
   HOMEPAGE_URL "https://github.com/linuxdeepin/dtkcommon"
 )
+# 在指定安装路径时，应当使用变量而非写死安装目录，
+# 以便于在不完全符合 FHS 的系统上安装，提高程序的可移植性。对于使用何种变量，
+# GUN 提出了适用于 unix 系统的 GNU标准安装目录，GNU/Linux 上使用的就是这套标准的变体。
+# cmake 官方提供了 GNUInstallDirs 模块，定义了一组标准的变量，
+# 用于安装不同类型文件到规范指定的目录中。
+# 要使用这个模块，在 CMakeLists.txt 添加一行 include(GNUInstallDirs) 即可导入。
+# 如果你发现 CMAKE_INSTALL_XXXX 的值为空，大概率是缺少这一行。注意导入模块需要放在使用变量之前。
+# https://blog.csdn.net/qq_33831360/article/details/126547238
 include(GNUInstallDirs)
 
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# CMAKE_INSTALL_PREFIX（后面简称 PREFIX） 是一个非常特殊的变量，
+# 在 CMakeLists.txt 中所有的相对路径都会默认把 PREFIX 作为前缀进行拼接，组成绝对路径。
   set(CMAKE_INSTALL_PREFIX /usr)
 endif ()
 
