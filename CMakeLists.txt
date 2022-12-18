@@ -28,15 +28,32 @@ endif ()
 
 message(STATUS ${PROJECT_VERSION})
 
+# CMAKE_INSTALL_FULL_LIBDIR=/usr/local/lib
+# MKSPECS_INSTALL_DIR=/usr/local/lib/qt5/mkspecs
 set (MKSPECS_INSTALL_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/qt5/mkspecs" CACHE STRING "INSTALL DIR FOR qt pri files")
 
+# MODULE_INCLUDES=/usr/local/include/libdtk-5.6.2
 set(MODULE_INCLUDES ${CMAKE_INSTALL_FULL_INCLUDEDIR}/libdtk-${PROJECT_VERSION})
+# MODULE_TOOLS=/usr/local/lib/libdtk-5.6.2
 set(MODULE_TOOLS ${CMAKE_INSTALL_FULL_LIBDIR}/libdtk-${PROJECT_VERSION})
+# misc/qt_lib_dtkcommon.pri.in输出为qt_lib_dtkcommon.pri
+# @ONLY：限制变量替换，让其只替换被@VAR@引用的变量(那么${VAR}格式的变量将不会被替换)
 configure_file(misc/qt_lib_dtkcommon.pri.in qt_lib_dtkcommon.pri @ONLY)
 
+# 安装目标位置/.usr/local/lib/qt5/mkspecs/modules
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qt_lib_dtkcommon.pri 
   DESTINATION "${MKSPECS_INSTALL_DIR}/modules")
-install(FILES schemas/com.deepin.dtk.gschema.xml DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/glib-2.0/schemas")
-install(DIRECTORY features DESTINATION "${MKSPECS_INSTALL_DIR}" FILES_MATCHING PATTERN "*" )
-install(DIRECTORY cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}" FILES_MATCHING  PATTERN "*" )
+# /usr/share/glib-2.0/schemas
+install(FILES schemas/com.deepin.dtk.gschema.xml 
+  DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/glib-2.0/schemas")
+# 将features目录安装到/usr/local/lib/qt5/mkspecs
+install(DIRECTORY features 
+  DESTINATION "${MKSPECS_INSTALL_DIR}" 
+  FILES_MATCHING PATTERN "*" 
+)
+# 将cmake目录安装到/usr/lib
+install(DIRECTORY cmake 
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}" 
+  FILES_MATCHING  PATTERN "*" 
+)
 
