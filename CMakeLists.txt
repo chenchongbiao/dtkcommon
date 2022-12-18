@@ -43,7 +43,7 @@ configure_file(misc/qt_lib_dtkcommon.pri.in qt_lib_dtkcommon.pri @ONLY)
 # 安装目标位置/.usr/local/lib/qt5/mkspecs/modules
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qt_lib_dtkcommon.pri 
   DESTINATION "${MKSPECS_INSTALL_DIR}/modules")
-# /usr/share/glib-2.0/schemas
+# 安装目标位置/usr/share/glib-2.0/schemas
 install(FILES schemas/com.deepin.dtk.gschema.xml 
   DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/glib-2.0/schemas")
 # 将features目录安装到/usr/local/lib/qt5/mkspecs
