@@ -3,11 +3,16 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
 # This cmake file is used to deploy files that dconfig's meta and override configure.
+# 这个cmake文件用于部署dconfig的meta数据和覆盖配置的文件。
 
+# cmake_parse_arguments()命令过去是由CMakeParseArguments模块提供的，但它成为了CMake 3.5中的内置命令。
+# include(CMakeParseArguments)行在CMake 3.5及以后的版本中不起任何作用，
+# 而在CMake的早期版本中，它将定义cmake_parse_arguments()命令。上面的形式确保命令是可用的，无论使用的是什么CMake版本。
 include(CMakeParseArguments)
 
 # get subpath according `FILE` and `BASE`.
 # e.g: FILE = /a/b/c/d/foo.json, BASE = /a/b, then return SUBPATH = /c/d/
+# 根据' FILE '和' BASE '获取子路径。
 function(GET_SUBPATH FILE BASE SUBPATH)
     get_filename_component(BASE_FILE_PATH ${BASE} REALPATH)
     get_filename_component(FILE_PATH ${FILE} REALPATH)
@@ -24,7 +29,7 @@ endif()
 add_definitions(-DDSG_DATA_DIR=${DSG_DATA_DIR})
 # deploy some `meta` 's configure.
 #
-# FILES       - deployed files.
+# FILES       - deployed files. 部署文件。
 # BASE        - used to get subpath, if it's empty, only copy files, and ignore it's subpath structure.
 # APPID       - working for the app.
 # COMMONID    - working for common.
@@ -35,7 +40,7 @@ add_definitions(-DDSG_DATA_DIR=${DSG_DATA_DIR})
 function(DCONFIG_META_FILES)
     set(oneValueArgs BASE APPID COMMONID)
     set(multiValueArgs FILES)
-
+    # 使用cmake_parse_arguments可以定义一个带有命名参数的函数或宏。
     cmake_parse_arguments(METAITEM "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     foreach(_current_FILE ${METAITEM_FILES})
